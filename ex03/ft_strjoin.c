@@ -6,13 +6,13 @@
 /*   By: tsignore <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/16 11:57:42 by tsignore          #+#    #+#             */
-/*   Updated: 2020/07/16 12:31:54 by tsignore         ###   ########.fr       */
+/*   Updated: 2020/07/16 17:18:14 by tsignore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 
-char	*ft_strcat(char *dest, char *src, char *sep)
+char	*ft_strcat(char *dest, char *src)
 {
 	int i;
 	int j;
@@ -20,8 +20,6 @@ char	*ft_strcat(char *dest, char *src, char *sep)
 	i = 0;
 	while (dest[i] != '\0')
 		i++;
-	dest[i] = sep;
-	i++;
 	j = 0;
 	while (src[j] != '\0')
 	{
@@ -45,9 +43,9 @@ int		ft_strlen(char *str)
 
 char	*ft_strjoin(int size, char **strs, char *sep)
 {
-	int i;
-	int res_size;
-	char *res;
+	int		i;
+	int		res_size;
+	char	*res;
 
 	i = 0;
 	res_size = 0;
@@ -56,13 +54,16 @@ char	*ft_strjoin(int size, char **strs, char *sep)
 		res_size += ft_strlen(strs[i]);
 		i++;
 	}
-	res = (char *)malloc(size);
-	if (!res)
+	res_size += size * ft_strlen(sep);
+	if (!(res = (char *)malloc(res_size)))
 		return (NULL);
 	i = 0;
 	while (i < size)
 	{
-		ft_strcat(res, strs[i], &sep);
+		if (i != 0)
+			ft_strcat(res, sep);
+		ft_strcat(res, strs[i]);
 		i++;
 	}
+	return (res);
 }
