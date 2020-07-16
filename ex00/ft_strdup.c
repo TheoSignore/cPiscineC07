@@ -6,7 +6,7 @@
 /*   By: tsignore <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/15 16:17:01 by tsignore          #+#    #+#             */
-/*   Updated: 2020/07/15 16:43:58 by tsignore         ###   ########.fr       */
+/*   Updated: 2020/07/16 09:30:07 by tsignore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,18 @@
 
 char	*ft_strdup(char *src)
 {
-	int size;
-	char *dup;
+	int		i;
+	int		size;
+	char	*dup;
 
 	size = 0;
 	while (src[size])
 		size++;
 	dup = (char *)malloc(size + 1);
-	if(!dup)
+	if (!dup)
 		return (NULL);
-	dup = src;
+	i = -1;
+	while (i++ < size)
+		dup[i] = src[i];
 	return (dup);
 }
