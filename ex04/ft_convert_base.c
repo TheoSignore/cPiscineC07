@@ -10,8 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-
 int		ft_strlen(char *str)
 {
 	int size;
@@ -28,6 +26,8 @@ int		ft_check_base(char *base)
 	int j;
 
 	i = 0;
+	if (base[0] == '\0' || base[1] == '\0')
+		return (0);
 	while (base[i])
 	{
 		if (base[i] == '\t' || base[i] == '\n' || base[i] == '\r'
@@ -89,12 +89,18 @@ int		ft_atoi_base(char *str, char *base)
 	return (res * sign);
 }
 
-char	*ft_convert_base(char *nbr, char *base_from, char *base_to)
+void	ft_itoa_base(long int nbr, char *cnv_nbr, char *base, int ndx)
 {
-	int nbr_value;
+	int bs_len;
 
-	if (!ft_check_base(base_from) || !ft_check_base(base_to))
-		return (NULL);
-	nbr_value = ft_atoi_base(nbr, base_from);
-
+	bs_len = ft_strlen(base);
+	cnv_nbr[0] = nbr < 0 ? '-' : cnv_nbr[0];
+	nbr = nbr < 0 ? nbr * -1 : nbr;
+	if (nbr >= bs_len)
+	{
+		ft_itoa_base((nbr / bs_len), cnv_nbr, base, ndx - 1);
+		cnv_nbr[ndx] = base[nbr % bs_len];
+	}
+	else if (nbr < bs_len)
+		cnv_nbr[ndx] = base[nbr % bs_len];
 }
