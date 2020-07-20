@@ -6,7 +6,7 @@
 /*   By: tsignore <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/16 09:34:25 by tsignore          #+#    #+#             */
-/*   Updated: 2020/07/16 09:55:08 by tsignore         ###   ########.fr       */
+/*   Updated: 2020/07/20 21:20:21 by tsignore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,7 @@ int	*ft_range(int min, int max)
 	size = max - min;
 	if (size <= 0)
 		return (NULL);
-	res = (int *)malloc(size);
-	if (!res)
+	if (!(res = (int *)malloc(sizeof(int) * size)))
 		return (NULL);
 	i = 0;
 	while (i < size)
