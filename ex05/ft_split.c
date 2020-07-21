@@ -6,7 +6,7 @@
 /*   By: tsignore <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/16 18:02:13 by tsignore          #+#    #+#             */
-/*   Updated: 2020/07/21 13:16:20 by tsignore         ###   ########.fr       */
+/*   Updated: 2020/07/21 13:23:27 by tsignore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int		ft_in_charset(char c, char *charset)
 {
 	int i;
-	
+
 	i = -1;
 	while (charset[++i])
 	{
@@ -44,7 +44,7 @@ int		ft_count_str(char *str, char *charset)
 	count = 0;
 	while (str[++i])
 	{
-		if (ft_in_charset(str[i], charset) 
+		if (ft_in_charset(str[i], charset)
 			&& !ft_in_charset(str[i + 1], charset))
 			count++;
 	}
@@ -58,9 +58,9 @@ char	*ft_get_str(char *str, char *charset)
 	i = -1;
 	while (str[++i])
 	{
-		if (ft_in_charset(str[i], charset) 
+		if (ft_in_charset(str[i], charset)
 			&& !ft_in_charset(str[i + 1], charset))
-		return (&str[i + 1]);
+			return (&str[i + 1]);
 	}
 	return (&str[i]);
 }
@@ -82,7 +82,7 @@ char	**ft_split(char *str, char *charset)
 		str = ft_get_str(str, charset);
 		if ((substr_len = ft_len_end(str, charset)))
 		{
-			if(!(res[i] = (char *)malloc(sizeof(char) * (substr_len + 1))))
+			if (!(res[i] = (char *)malloc(sizeof(char) * (substr_len + 1))))
 				return (NULL);
 			j = -1;
 			while (++j < substr_len + 1)
