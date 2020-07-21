@@ -6,7 +6,7 @@
 /*   By: tsignore <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/16 18:02:13 by tsignore          #+#    #+#             */
-/*   Updated: 2020/07/17 08:42:44 by tsignore         ###   ########.fr       */
+/*   Updated: 2020/07/21 10:56:45 by tsignore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ char	*ft_convert_base(char *nbr, char *base_from, char *base_to)
 	{
 		order *= ft_strlen(base_to);
 		size++;
+		size = !(order < (nbr_value * sign)) ? size - 1 : size;
 	}
-	size--;
 	if (!(cnv_nbr = (char *)malloc(size + 1)))
 		return (NULL);
 	ft_itoa_base(nbr_value, cnv_nbr, base_to, size - 1);
