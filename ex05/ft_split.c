@@ -6,97 +6,63 @@
 /*   By: tsignore <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/16 18:02:13 by tsignore          #+#    #+#             */
-/*   Updated: 2020/07/20 13:59:04 by tsignore         ###   ########.fr       */
+/*   Updated: 2020/07/21 13:16:20 by tsignore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 
-int		ft_strlen(char *str)
+int		ft_in_charset(char c, char *charset)
+{
+	int i;
+	
+	i = -1;
+	while (charset[++i])
+	{
+		if (charset[i] == c)
+			return (1);
+	}
+	return (0);
+}
+
+int		ft_len_end(char *str, char *charset)
 {
 	int size;
 
 	size = 0;
-	while (str[size])
+	while (!ft_in_charset(str[size], charset))
 		size++;
 	return (size);
 }
 
-int		ft_strlen_del(char *str, char *delimiter)
+int		ft_count_str(char *str, char *charset)
 {
 	int i;
-	int j;
-
-	j = 0;
-	i = 0;
-	while (str[i] != '\0' && delimiter[j] != '\0')
-	{
-		if (str[i] != delimiter[j])
-		{
-			j = 0;
-			if (str[i] == delimiter[j])
-				j++;
-		}
-		else
-			j++;
-		if (delimiter[j] == '\0')
-		{
-			return (i - ft_strlen(delimiter) + 1);
-		}
-		i++;
-	}
-	return (0);
-}
-
-int		ft_count_substr(char *str, char *delimiter)
-{
-	int i;
-	int j;
 	int count;
 
-	j = 0;
 	i = -1;
 	count = 0;
-	while (str[++i] != '\0' && delimiter[j] != '\0')
+	while (str[++i])
 	{
-		if (str[i] != delimiter[j])
-		{
-			j = 0;
-			j = str[i] == delimiter[j] ? j + 1 : j;
-		}
-		else
-			j++;
-		if (delimiter[j] == '\0')
-		{
-			count = ft_strlen_del(&str[i + 1], delimiter) ? count + 1 : count;
-			j = 0;
-		}
+		if (ft_in_charset(str[i], charset) 
+			&& !ft_in_charset(str[i + 1], charset))
+			count++;
 	}
-	return (count);
+	return (count - 1);
 }
 
-char	*ft_strstr(char *str, char *to_find)
+char	*ft_get_str(char *str, char *charset)
 {
 	int i;
-	int j;
 
-	j = 0;
-	i = 0;
-	while (str[i] != '\0' && to_find[j] != '\0')
+	i = -1;
+	while (str[++i])
 	{
-		if (str[i] != to_find[j])
-		{
-			j = 0;
-			if (str[i] == to_find[j])
-				j++;
-		}
-		else
-			j++;
-		if (to_find[j] == '\0')
-			return (&str[i + 1]);
-		i++;
+		if (ft_in_charset(str[i], charset) 
+			&& !ft_in_charset(str[i + 1], charset))
+		return (&str[i + 1]);
 	}
-	return (0);
+	return (&str[i]);
 }
 
 char	**ft_split(char *str, char *charset)
@@ -104,23 +70,23 @@ char	**ft_split(char *str, char *charset)
 	char	**res;
 	int		i;
 	int		j;
-	int		size;
+	int		substr_len;
 	int		count;
 
-	count = ft_count_substr(str, charset);
-	if (!(res = (char **)malloc(sizeof(char *) * count + 1)))
+	count = ft_count_str(str, charset);
+	if (!(res = (char **)malloc(((count + 1) * sizeof(char *)))))
 		return (NULL);
 	i = 0;
 	while (i < count)
 	{
-		str = ft_strstr(str, charset);
-		if ((size = ft_strlen_del(str, charset)))
+		str = ft_get_str(str, charset);
+		if ((substr_len = ft_len_end(str, charset)))
 		{
-			if (!(res[i] = (char *)malloc(size + 1)))
+			if(!(res[i] = (char *)malloc(sizeof(char) * (substr_len + 1))))
 				return (NULL);
 			j = -1;
-			while (++j < size + 1)
-				res[i][j] = j == size ? '\0' : str[j];
+			while (++j < substr_len + 1)
+				res[i][j] = j == substr_len ? '\0' : str[j];
 			i++;
 		}
 	}
